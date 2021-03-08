@@ -374,12 +374,20 @@ export class SelectionSetToObject<Config extends ParsedDocumentsConfig = ParsedD
       const selectionSet = this.createNext(realSelectedFieldType, field.selectionSet);
       const isConditional = hasConditionalDirectives(field.directives);
 
+      const hasFragment = field.selectionSet.selections.some(
+        s => s.kind === 'InlineFragment' || s.kind === 'FragmentSpread'
+      );
+
       linkFields.push({
         alias: field.alias ? this._processor.config.formatNamedField(field.alias.value, selectedFieldType) : undefined,
         name: this._processor.config.formatNamedField(field.name.value, selectedFieldType, isConditional),
         type: realSelectedFieldType.name,
         selectionSet: this._processor.config.wrapTypeWithModifiers(
-          selectionSet.transformSelectionSet().split(`\n`).join(`\n  `),
+          selectionSet
+            .transformSelectionSet()
+            .split(`\n`)
+            .concat(this._config.addExtraTypename && hasFragment ? ["| {__typename: '$other'}"] : [])
+            .join(`\n`),
           isConditional ? removeNonNullWrapper(selectedFieldType) : selectedFieldType
         ),
       });
@@ -529,7 +537,12 @@ export class SelectionSetToObject<Config extends ParsedDocumentsConfig = ParsedD
         .export()
         .asKind('type')
         .withName(this.buildFragmentTypeName(fragmentName, fragmentSuffix))
-        .withContent(subTypes.map(t => t.name).join(' | ')).string,
+        .withContent(
+          subTypes
+            .map(t => t.name)
+            .concat(this._config.addExtraTypename ? [`{__typename: "$other"}`] : [])
+            .join(' | ')
+        ).string,
     ].join('\n');
   }
 

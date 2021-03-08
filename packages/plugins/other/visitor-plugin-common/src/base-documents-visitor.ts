@@ -28,6 +28,7 @@ function getRootType(operation: OperationTypeNode, schema: GraphQLSchema) {
 
 export interface ParsedDocumentsConfig extends ParsedTypesConfig {
   addTypename: boolean;
+  addExtraTypename: boolean;
   preResolveTypes: boolean;
   globalNamespace: boolean;
   operationResultSuffix: string;
@@ -63,6 +64,7 @@ export interface RawDocumentsConfig extends RawTypesConfig {
    *     skipTypeNameForRoot: true
    * ```
    */
+  addExtraTypename?: boolean;
   skipTypeNameForRoot?: boolean;
   /**
    * @default false
@@ -134,6 +136,7 @@ export class BaseDocumentsVisitor<
       namespacedImportName: getConfigValue(rawConfig.namespacedImportName, null),
       experimentalFragmentVariables: getConfigValue(rawConfig.experimentalFragmentVariables, false),
       addTypename: !rawConfig.skipTypename,
+      addExtraTypename: true,
       globalNamespace: !!rawConfig.globalNamespace,
       operationResultSuffix: getConfigValue(rawConfig.operationResultSuffix, ''),
       scalars: buildScalars(_schema, rawConfig.scalars, defaultScalars),
