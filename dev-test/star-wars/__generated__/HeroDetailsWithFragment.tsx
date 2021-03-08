@@ -11,7 +11,9 @@ export type HeroDetailsWithFragmentQueryVariables = Types.Exact<{
 
 export type HeroDetailsWithFragmentQuery = { __typename?: 'Query' } & {
   hero?: Types.Maybe<
-    ({ __typename?: 'Human' } & HeroDetails_Human_Fragment) | ({ __typename?: 'Droid' } & HeroDetails_Droid_Fragment)
+    | ({ __typename?: 'Human' } & HeroDetails_Human_Fragment)
+    | ({ __typename?: 'Droid' } & HeroDetails_Droid_Fragment)
+    | { __typename: '$other' }
   >;
 };
 

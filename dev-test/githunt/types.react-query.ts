@@ -209,11 +209,13 @@ export type CommentQuery = { __typename?: 'Query' } & {
   entry?: Maybe<
     { __typename?: 'Entry' } & Pick<Entry, 'id' | 'createdAt' | 'commentCount'> & {
         postedBy: { __typename?: 'User' } & Pick<User, 'login' | 'html_url'>;
-        comments: Array<Maybe<{ __typename?: 'Comment' } & CommentsPageCommentFragment>>;
-        repository: { __typename?: 'Repository' } & Pick<
-          Repository,
-          'description' | 'open_issues_count' | 'stargazers_count' | 'full_name' | 'html_url'
-        >;
+        comments: Array<Maybe<({ __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }>>;
+        repository:
+          | ({ __typename?: 'Repository' } & Pick<
+              Repository,
+              'description' | 'open_issues_count' | 'stargazers_count' | 'full_name' | 'html_url'
+            >)
+          | { __typename: '$other' };
       }
   >;
 };
@@ -243,7 +245,7 @@ export type FeedQueryVariables = Exact<{
 
 export type FeedQuery = { __typename?: 'Query' } & {
   currentUser?: Maybe<{ __typename?: 'User' } & Pick<User, 'login'>>;
-  feed?: Maybe<Array<Maybe<{ __typename?: 'Entry' } & FeedEntryFragment>>>;
+  feed?: Maybe<Array<Maybe<({ __typename?: 'Entry' } & FeedEntryFragment) | { __typename: '$other' }>>>;
 };
 
 export type SubmitRepositoryMutationVariables = Exact<{
@@ -268,7 +270,7 @@ export type SubmitCommentMutationVariables = Exact<{
 }>;
 
 export type SubmitCommentMutation = { __typename?: 'Mutation' } & {
-  submitComment?: Maybe<{ __typename?: 'Comment' } & CommentsPageCommentFragment>;
+  submitComment?: Maybe<({ __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }>;
 };
 
 export type VoteButtonsFragment = { __typename?: 'Entry' } & Pick<Entry, 'score'> & {

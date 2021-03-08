@@ -58,15 +58,17 @@ export type CommentQuery = {
     createdAt: number;
     commentCount: number;
     postedBy: { __typename?: 'User'; login: string; html_url: string };
-    comments: Array<Maybe<{ __typename?: 'Comment' } & CommentsPageCommentFragment>>;
-    repository: {
-      __typename?: 'Repository';
-      description?: Maybe<string>;
-      open_issues_count?: Maybe<number>;
-      stargazers_count: number;
-      full_name: string;
-      html_url: string;
-    };
+    comments: Array<Maybe<({ __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }>>;
+    repository:
+      | {
+          __typename?: 'Repository';
+          description?: Maybe<string>;
+          open_issues_count?: Maybe<number>;
+          stargazers_count: number;
+          full_name: string;
+          html_url: string;
+        }
+      | { __typename: '$other' };
   }>;
 };
 
@@ -107,7 +109,7 @@ export type FeedQueryVariables = Exact<{
 export type FeedQuery = {
   __typename?: 'Query';
   currentUser?: Maybe<{ __typename?: 'User'; login: string }>;
-  feed?: Maybe<Array<Maybe<{ __typename?: 'Entry' } & FeedEntryFragment>>>;
+  feed?: Maybe<Array<Maybe<({ __typename?: 'Entry' } & FeedEntryFragment) | { __typename: '$other' }>>>;
 };
 
 export type SubmitRepositoryMutationVariables = Exact<{
@@ -138,7 +140,7 @@ export type SubmitCommentMutationVariables = Exact<{
 
 export type SubmitCommentMutation = {
   __typename?: 'Mutation';
-  submitComment?: Maybe<{ __typename?: 'Comment' } & CommentsPageCommentFragment>;
+  submitComment?: Maybe<({ __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }>;
 };
 
 export type VoteButtonsFragment = {

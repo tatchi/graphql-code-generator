@@ -5,7 +5,7 @@ export type HeroDetails_Human_Fragment = { __typename?: 'Human' } & Pick<Types.H
 
 export type HeroDetails_Droid_Fragment = { __typename?: 'Droid' } & Pick<Types.Droid, 'primaryFunction' | 'name'>;
 
-export type HeroDetailsFragment = HeroDetails_Human_Fragment | HeroDetails_Droid_Fragment;
+export type HeroDetailsFragment = HeroDetails_Human_Fragment | HeroDetails_Droid_Fragment | { __typename: '$other' };
 
 export const HeroDetailsFragmentDoc = gql`
   fragment HeroDetails on Character {

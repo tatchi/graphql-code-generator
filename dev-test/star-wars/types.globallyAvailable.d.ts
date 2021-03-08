@@ -284,6 +284,7 @@ type HeroDetailsQuery = { __typename?: 'Query' } & {
   hero?: Maybe<
     | ({ __typename?: 'Human' } & Pick<Human, 'height' | 'name'>)
     | ({ __typename?: 'Droid' } & Pick<Droid, 'primaryFunction' | 'name'>)
+    | { __typename: '$other' }
   >;
 };
 
@@ -291,7 +292,7 @@ type HeroDetails_Human_Fragment = { __typename?: 'Human' } & Pick<Human, 'height
 
 type HeroDetails_Droid_Fragment = { __typename?: 'Droid' } & Pick<Droid, 'primaryFunction' | 'name'>;
 
-type HeroDetailsFragment = HeroDetails_Human_Fragment | HeroDetails_Droid_Fragment;
+type HeroDetailsFragment = HeroDetails_Human_Fragment | HeroDetails_Droid_Fragment | { __typename: '$other' };
 
 type HeroDetailsWithFragmentQueryVariables = Exact<{
   episode?: Maybe<Episode>;
@@ -299,7 +300,9 @@ type HeroDetailsWithFragmentQueryVariables = Exact<{
 
 type HeroDetailsWithFragmentQuery = { __typename?: 'Query' } & {
   hero?: Maybe<
-    ({ __typename?: 'Human' } & HeroDetails_Human_Fragment) | ({ __typename?: 'Droid' } & HeroDetails_Droid_Fragment)
+    | ({ __typename?: 'Human' } & HeroDetails_Human_Fragment)
+    | ({ __typename?: 'Droid' } & HeroDetails_Droid_Fragment)
+    | { __typename: '$other' }
   >;
 };
 
@@ -347,6 +350,7 @@ type HeroParentTypeDependentFieldQuery = { __typename?: 'Query' } & {
               Maybe<
                 | ({ __typename?: 'Human' } & Pick<Human, 'height' | 'name'>)
                 | ({ __typename?: 'Droid' } & Pick<Droid, 'name'>)
+                | { __typename: '$other' }
               >
             >
           >;
@@ -357,10 +361,12 @@ type HeroParentTypeDependentFieldQuery = { __typename?: 'Query' } & {
               Maybe<
                 | ({ __typename?: 'Human' } & Pick<Human, 'height' | 'name'>)
                 | ({ __typename?: 'Droid' } & Pick<Droid, 'name'>)
+                | { __typename: '$other' }
               >
             >
           >;
         })
+    | { __typename: '$other' }
   >;
 };
 
@@ -372,6 +378,7 @@ type HeroTypeDependentAliasedFieldQuery = { __typename?: 'Query' } & {
   hero?: Maybe<
     | ({ __typename?: 'Human' } & { property: Human['homePlanet'] })
     | ({ __typename?: 'Droid' } & { property: Droid['primaryFunction'] })
+    | { __typename: '$other' }
   >;
 };
 
@@ -380,7 +387,7 @@ type HumanFieldsFragment = { __typename?: 'Human' } & Pick<Human, 'name' | 'mass
 type HumanWithNullHeightQueryVariables = Exact<{ [key: string]: never }>;
 
 type HumanWithNullHeightQuery = { __typename?: 'Query' } & {
-  human?: Maybe<{ __typename?: 'Human' } & HumanFieldsFragment>;
+  human?: Maybe<({ __typename?: 'Human' } & HumanFieldsFragment) | { __typename: '$other' }>;
 };
 
 type TwoHeroesQueryVariables = Exact<{ [key: string]: never }>;

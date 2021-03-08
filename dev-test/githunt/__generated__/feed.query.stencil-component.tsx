@@ -12,7 +12,7 @@ declare global {
 
   export type FeedQuery = { __typename?: 'Query' } & {
     currentUser?: Types.Maybe<{ __typename?: 'User' } & Pick<Types.User, 'login'>>;
-    feed?: Types.Maybe<Array<Types.Maybe<{ __typename?: 'Entry' } & FeedEntryFragment>>>;
+    feed?: Types.Maybe<Array<Types.Maybe<({ __typename?: 'Entry' } & FeedEntryFragment) | { __typename: '$other' }>>>;
   };
 }
 

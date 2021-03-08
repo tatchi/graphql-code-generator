@@ -210,17 +210,22 @@ export type CommentQuery = {
           ...{ __typename?: 'User' },
           ...$Pick<User, {| login: *, html_url: * |}>,
         },
-        comments: Array<?{
-          ...{ __typename?: 'Comment' },
-          ...CommentsPageCommentFragment,
-        }>,
-        repository: {
-          ...{ __typename?: 'Repository' },
-          ...$Pick<
-            Repository,
-            {| description?: *, open_issues_count?: *, stargazers_count: *, full_name: *, html_url: * |}
-          >,
-        },
+        comments: Array<
+          | ?{
+              ...{ __typename?: 'Comment' },
+              ...CommentsPageCommentFragment,
+            }
+          | { __typename: '$other' }
+        >,
+        repository:
+          | {
+              ...{ __typename?: 'Repository' },
+              ...$Pick<
+                Repository,
+                {| description?: *, open_issues_count?: *, stargazers_count: *, full_name: *, html_url: * |}
+              >,
+            }
+          | { __typename: '$other' },
       |},
     },
   |},
@@ -281,10 +286,13 @@ export type FeedQuery = {
       ...{ __typename?: 'User' },
       ...$Pick<User, {| login: * |}>,
     },
-    feed?: ?Array<?{
-      ...{ __typename?: 'Entry' },
-      ...FeedEntryFragment,
-    }>,
+    feed?: ?Array<
+      | ?{
+          ...{ __typename?: 'Entry' },
+          ...FeedEntryFragment,
+        }
+      | { __typename: '$other' }
+    >,
   |},
 };
 
@@ -325,10 +333,12 @@ export type SubmitCommentMutationVariables = {
 export type SubmitCommentMutation = {
   ...{ __typename?: 'Mutation' },
   ...{|
-    submitComment?: ?{
-      ...{ __typename?: 'Comment' },
-      ...CommentsPageCommentFragment,
-    },
+    submitComment?:
+      | ?{
+          ...{ __typename?: 'Comment' },
+          ...CommentsPageCommentFragment,
+        }
+      | { __typename: '$other' },
   |},
 };
 

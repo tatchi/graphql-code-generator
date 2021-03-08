@@ -15,6 +15,7 @@ export type HeroParentTypeDependentFieldQuery = { __typename?: 'Query' } & {
               Types.Maybe<
                 | ({ __typename?: 'Human' } & Pick<Types.Human, 'height' | 'name'>)
                 | ({ __typename?: 'Droid' } & Pick<Types.Droid, 'name'>)
+                | { __typename: '$other' }
               >
             >
           >;
@@ -25,10 +26,12 @@ export type HeroParentTypeDependentFieldQuery = { __typename?: 'Query' } & {
               Types.Maybe<
                 | ({ __typename?: 'Human' } & Pick<Types.Human, 'height' | 'name'>)
                 | ({ __typename?: 'Droid' } & Pick<Types.Droid, 'name'>)
+                | { __typename: '$other' }
               >
             >
           >;
         })
+    | { __typename: '$other' }
   >;
 };
 

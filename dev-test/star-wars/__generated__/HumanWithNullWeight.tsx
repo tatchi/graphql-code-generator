@@ -8,7 +8,7 @@ const defaultOptions = {};
 export type HumanWithNullHeightQueryVariables = Types.Exact<{ [key: string]: never }>;
 
 export type HumanWithNullHeightQuery = { __typename?: 'Query' } & {
-  human?: Types.Maybe<{ __typename?: 'Human' } & HumanFieldsFragment>;
+  human?: Types.Maybe<({ __typename?: 'Human' } & HumanFieldsFragment) | { __typename: '$other' }>;
 };
 
 export const HumanWithNullHeightDocument = gql`

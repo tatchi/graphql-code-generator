@@ -188,11 +188,15 @@ export type CommentQuery = { readonly __typename?: 'Query' } & {
   readonly entry?: Maybe<
     { readonly __typename?: 'Entry' } & Pick<Entry, 'id' | 'createdAt' | 'commentCount'> & {
         readonly postedBy: { readonly __typename?: 'User' } & Pick<User, 'login' | 'html_url'>;
-        readonly comments: ReadonlyArray<Maybe<{ readonly __typename?: 'Comment' } & CommentsPageCommentFragment>>;
-        readonly repository: { readonly __typename?: 'Repository' } & Pick<
-          Repository,
-          'description' | 'open_issues_count' | 'stargazers_count' | 'full_name' | 'html_url'
+        readonly comments: ReadonlyArray<
+          Maybe<({ readonly __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }>
         >;
+        readonly repository:
+          | ({ readonly __typename?: 'Repository' } & Pick<
+              Repository,
+              'description' | 'open_issues_count' | 'stargazers_count' | 'full_name' | 'html_url'
+            >)
+          | { __typename: '$other' };
       }
   >;
 };
@@ -223,7 +227,9 @@ export type FeedQueryVariables = Exact<{
 
 export type FeedQuery = { readonly __typename?: 'Query' } & {
   readonly currentUser?: Maybe<{ readonly __typename?: 'User' } & Pick<User, 'login'>>;
-  readonly feed?: Maybe<ReadonlyArray<Maybe<{ readonly __typename?: 'Entry' } & FeedEntryFragment>>>;
+  readonly feed?: Maybe<
+    ReadonlyArray<Maybe<({ readonly __typename?: 'Entry' } & FeedEntryFragment) | { __typename: '$other' }>>
+  >;
 };
 
 export type SubmitRepositoryMutationVariables = Exact<{
@@ -248,7 +254,9 @@ export type SubmitCommentMutationVariables = Exact<{
 }>;
 
 export type SubmitCommentMutation = { readonly __typename?: 'Mutation' } & {
-  readonly submitComment?: Maybe<{ readonly __typename?: 'Comment' } & CommentsPageCommentFragment>;
+  readonly submitComment?: Maybe<
+    ({ readonly __typename?: 'Comment' } & CommentsPageCommentFragment) | { __typename: '$other' }
+  >;
 };
 
 export type VoteButtonsFragment = { readonly __typename?: 'Entry' } & Pick<Entry, 'score'> & {
